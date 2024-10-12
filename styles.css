@@ -1,0 +1,93 @@
+body {
+    background-color: rgb(242, 242, 242);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(219, 219, 219);
+    border: 2px solid rgb(0, 0, 0);
+    height: 100px;
+    width: 235px;
+    box-shadow: 4px 4px 0px rgb(156, 156, 165);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    display: flex;
+    justify-content: left;
+    margin: 10px;
+}
+
+.input-group {
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+input {
+    width: 30px;
+    border-radius: 0px;
+    font-family: 'Pixelify Sans', sans-serif;
+    color: rgb(128, 128, 128);
+}
+
+input:focus {
+    border-radius: 0px;
+    outline: none;
+}
+
+label {
+    font-family: 'Pixelify Sans', sans-serif;
+}
+
+.but {
+    display: flex;
+    height: 25px;
+    margin-right: 10px;
+}
+
+button {
+    border-radius: 0px;
+    background-color: rgb(156, 156, 165);
+    width:80px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.title {
+    margin: 0px;
+    margin-top: 5px;
+}
+
+p {
+    margin: 0px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 14px;
+}
+
+.result {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 15px;
+    margin-bottom: 5px;
+    width: 200px;
+    height: 30px;
+}
+
+.result p {
+    font-weight: bold;
+}
