@@ -57,6 +57,7 @@ async function runTests() {
     await testTriangle(20, 1, 2, "No es triángulo");
     await testTriangle("", "", "", "Datos incorrectos");
     await testTriangle("a", "b", "c1", "Datos incorrectos");
+    await testTriangle(-1, 2, 2, "Datos incorrectos");
 
     // Después de ejecutar todas las pruebas, guarda los resultados en un archivo Excel
     exportResultsToExcel();
