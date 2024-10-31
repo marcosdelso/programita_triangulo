@@ -15,7 +15,7 @@ function compute() {
         const numLado2 = parseFloat(lado2);
         const numLado3 = parseFloat(lado3);
         
-        if (numLado2 <= 0 || numLado3 <= 0) {
+        if (numLado1 < 0 || numLado2 < 0 || numLado3 < 0) {
             tipo = 'Datos incorrectos';
         } else if (numLado1 + numLado2 <= numLado3 || numLado1 + numLado3 <= numLado2 || numLado2 + numLado3 <= numLado1) { //
             tipo = 'No es triángulo';
