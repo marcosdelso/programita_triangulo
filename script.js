@@ -17,7 +17,7 @@ function compute() {
         
         if (numLado1 < 0 || numLado2 < 0 || numLado3 < 0) {
             tipo = 'Datos incorrectos';
-        } else if (numLado1 + numLado2 <= numLado3 || numLado1 + numLado3 <= numLado2 || numLado2 + numLado3 <= numLado1) { //
+        } else if (numLado1 + numLado2 < numLado3 || numLado1 + numLado3 < numLado2 || numLado2 + numLado3 < numLado1) {
             tipo = 'No es triángulo';
         } else if (numLado1 === numLado2 && numLado2 === numLado3) {
             tipo = 'Equilátero';
