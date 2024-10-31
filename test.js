@@ -1,19 +1,15 @@
 const { Builder, By, until } = require('selenium-webdriver');
-const assert = require('assert');
-const xlsx = require('xlsx'); // Paquete para trabajar con Excel
+const xlsx = require('exceljs');
 require('chromedriver');
 
-// Inicializa una matriz para almacenar los resultados
 let testResults = [];
 
 async function testTriangle(lado1, lado2, lado3, expectedResult) {
     let driver = await new Builder().forBrowser('chrome').build();
     
     try {
-        // Abre tu archivo HTML local
         await driver.get('https://marcosdelso.github.io/programita_triangulo/');
 
-        // Encuentra los campos de input y rellénalos
         await driver.findElement(By.id('lado1')).clear();
         await driver.findElement(By.id('lado1')).sendKeys(lado1);
         
@@ -22,18 +18,14 @@ async function testTriangle(lado1, lado2, lado3, expectedResult) {
         
         await driver.findElement(By.id('lado3')).clear();
         await driver.findElement(By.id('lado3')).sendKeys(lado3);
-        
-        // Haz clic en el botón para ejecutar la función
+
         await driver.findElement(By.xpath('//button[text()="Ejecutar"]')).click();
 
-        // Espera hasta que el resultado aparezca
         let result = await driver.wait(until.elementLocated(By.id('tipo-triangulo')), 1000).getText();
-        
-        // Verifica el resultado
+
         const status = result === expectedResult ? 'Pasado' : 'Fallado';
         console.log(`Test ${status} para (${lado1}, ${lado2}, ${lado3})`);
 
-        // Agrega el resultado a la matriz
         testResults.push({
             Lado1: lado1,
             Lado2: lado2,
@@ -59,23 +51,39 @@ async function runTests() {
     await testTriangle("a", "b", "c1", "Datos incorrectos");
     await testTriangle(-1, 2, 2, "Datos incorrectos");
 
-    // Después de ejecutar todas las pruebas, guarda los resultados en un archivo Excel
     exportResultsToExcel();
 }
 
-function exportResultsToExcel() {
-    // Crea una nueva hoja de trabajo con los resultados
-    const worksheet = xlsx.utils.json_to_sheet(testResults);
+async function exportResultsToExcel() {
 
-    // Crea un nuevo libro de trabajo y agrega la hoja
-    const workbook = xlsx.utils.book_new();
-    xlsx.utils.book_append_sheet(workbook, worksheet, 'ResultadosPruebas');
+    const workbook = new xlsx.Workbook();
+    const worksheet = workbook.addWorksheet('ResultadosPruebas');
 
-    // Escribe el archivo Excel
-    xlsx.writeFile(workbook, 'ResultadosPruebas.xlsx');
-    
-    console.log("Resultados exportados a 'ResultadosPruebas.xlsx'");
+    worksheet.columns = [
+        { header: 'Lado1', key: 'Lado1', width: 10 },
+        { header: 'Lado2', key: 'Lado2', width: 10 },
+        { header: 'Lado3', key: 'Lado3', width: 10 },
+        { header: 'Resultado Obtenido', key: 'Resultado_Obtenido', width: 20 },
+        { header: 'Resultado Esperado', key: 'Resultado_Esperado', width: 20 },
+        { header: 'Estado', key: 'Estado', width: 10 }
+    ];
+
+    testResults.forEach(test => {
+        const row = worksheet.addRow(test);
+
+        const fillColor = test.Estado === 'Fallado' ? 'DA9694' : 'D8E4BC';
+
+        row.eachCell((cell, colNumber) => {
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: fillColor }
+            };
+        });
+    });
+
+    await workbook.xlsx.writeFile('ResultadosPruebas.xlsx');
+    console.log("Resultados exportados a 'ResultadosPruebas.xlsx' con formato de color en toda la fila.");
 }
 
-// Ejecuta las pruebas
 runTests().catch(err => console.log(err));
